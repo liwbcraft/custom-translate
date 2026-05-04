@@ -3,7 +3,7 @@
   "name": "Custom Translate",
   "version": "1.0.0",
   "minAppVersion": "0.15.0",
-  "description": "Translate selected text with local API and manage personal vocabulary.",
+  "description": "Translate selected text with local API and manage personal vocabulary. ",
   "author": "Liwb",
   "authorUrl": "https://liwbcraft.github.io",
   "isDesktopOnly": true
