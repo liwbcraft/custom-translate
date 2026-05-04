@@ -5,6 +5,6 @@
   "minAppVersion": "0.15.0",
   "description": "Translate selected text with local API and manage personal vocabulary.",
   "author": "Liwb",
-  "authorUrl": "https://github.com/liwbcraft/custom-translate",
+  "authorUrl": "https://github.com/liwbcraft",
   "isDesktopOnly": true
 }
