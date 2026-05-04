@@ -6,11 +6,11 @@
 
 ## English
 
-A translation plugin for Obsidian that works with LibreTranslate (or any compatible local translation service) and includes a personal vocabulary manager.
+An Obsidian plugin for local translation and vocabulary management, designed to work with the open-source LibreTranslate.
 
 ### Features
 
-- **Text Translation**: Translate selected text using a local API (LibreTranslate recommended)
+- **Text Translation**: Uses local translation service (LibreTranslate required)
 - **Vocabulary Management**: Build and manage your personal word collection
 - **Word Details**: Store part of speech, definition, examples, synonyms, antonyms, tags, frequency, and CEFR level
 - **Phonetic Notation**: Save both UK and US pronunciations
@@ -20,7 +20,7 @@ A translation plugin for Obsidian that works with LibreTranslate (or any compati
 
 ### Prerequisites
 
-This plugin requires a local translation service. **LibreTranslate** (open-source) is recommended.
+This plugin depends on LibreTranslate translation service. Please ensure it is deployed and running.
 
 #### Quick Deploy with Docker
 
@@ -91,11 +91,11 @@ MIT
 
 ## 中文
 
-一款为 Obsidian 打造的本地翻译 + 单词本管理插件，推荐配合开源的 LibreTranslate 使用。
+一款为 Obsidian 打造的本地翻译 + 单词本管理插件，需配合开源的 LibreTranslate 使用。
 
 ### 功能特点
 
-- **文本翻译**：调用本地翻译服务（推荐 LibreTranslate）
+- **文本翻译**：调用本地翻译服务（需 LibreTranslate）
 - **单词本管理**：收藏和管理你的单词
 - **详细信息**：存储词性、释义、例句、同义词、反义词、标签、词频、CEFR等级
 - **音标支持**：同时保存英式和美式发音
@@ -105,7 +105,7 @@ MIT
 
 ### 使用前提
 
-本插件需要配合本地翻译服务使用，推荐使用开源的 LibreTranslate。
+本插件依赖 LibreTranslate 翻译服务，请确保已部署并运行。
 
 #### Docker 一键部署
 
@@ -179,9 +179,8 @@ MIT
 - [GitHub Repository](https://github.com/liwbcraft/custom-translate)
 - [Issues](https://github.com/liwbcraft/custom-translate/issues)
 - [LibreTranslate](https://github.com/LibreTranslate/LibreTranslate)
-```
 
-### 5. `LICENSE`
+### `LICENSE`
 
 ```text
 MIT License
