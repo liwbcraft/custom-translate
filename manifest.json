@@ -1,9 +1,9 @@
 {
   "id": "custom-translate",
-  "name": "Custom Translate | 自定义翻译",
+  "name": "Custom Translate",
   "version": "1.0.0",
   "minAppVersion": "0.15.0",
-  "description": "Translate selected text with local API and manage personal vocabulary. | 本地翻译 + 单词本管理，支持自定义词汇和音标。",
+  "description": "Translate selected text with local API and manage personal vocabulary.",
   "author": "Liwb",
   "authorUrl": "https://github.com/liwbcraft/custom-translate",
   "isDesktopOnly": true
