@@ -1,0 +1,97 @@
+/* Custom Translate Plugin Styles | 自定义翻译插件样式 */
+
+.local-translate-result {
+    transition: all 0.2s ease;
+    opacity: 0;
+    animation: fadeIn 0.2s forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.local-translate-result button {
+    transition: all 0.2s ease;
+}
+
+.local-translate-result button:hover {
+    opacity: 0.7;
+    background: var(--background-modifier-hover);
+}
+
+/* Status bar styles */
+.status-bar-item.plugin-custom-translate {
+    color: var(--text-muted) !important;
+}
+
+.status-bar-item.plugin-custom-translate,
+.status-bar-item.plugin-custom-translate * {
+    color: var(--text-muted) !important;
+}
+
+.theme-dark .status-bar-item.plugin-custom-translate {
+    color: #a0a0a0 !important;
+}
+
+/* Modal scrollbar */
+.custom-translate-modal::-webkit-scrollbar,
+.vocab-manager-modal::-webkit-scrollbar {
+    width: 6px;
+}
+
+.custom-translate-modal::-webkit-scrollbar-track,
+.vocab-manager-modal::-webkit-scrollbar-track {
+    background: var(--background-secondary);
+    border-radius: 3px;
+}
+
+.custom-translate-modal::-webkit-scrollbar-thumb,
+.vocab-manager-modal::-webkit-scrollbar-thumb {
+    background: var(--background-modifier-border);
+    border-radius: 3px;
+}
+
+.custom-translate-modal::-webkit-scrollbar-thumb:hover,
+.vocab-manager-modal::-webkit-scrollbar-thumb:hover {
+    background: var(--text-muted);
+}
+
+/* Button hover effects */
+.custom-translate-modal button,
+.vocab-manager-modal button {
+    transition: all 0.15s ease;
+}
+
+.custom-translate-modal button:hover,
+.vocab-manager-modal button:hover {
+    transform: translateY(-1px);
+}
+
+.custom-translate-modal button:active,
+.vocab-manager-modal button:active {
+    transform: translateY(0px);
+}
+
+/* Close button specific */
+.close-card:hover,
+.close-vocab:hover,
+.close-modal:hover,
+.close-edit-modal:hover {
+    background: var(--background-modifier-hover) !important;
+}
+
+/* Vocab item hover */
+.vocab-item:hover {
+    background: var(--background-secondary);
+    border-radius: 8px;
+    margin: 0 -8px;
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+}
