@@ -70,6 +70,34 @@ And return a response with a `translatedText` field.
 - Double-click to select word text, then use hotkey to look up
 - Supports sorting by word or frequency, searching, and pagination
 
+#### 📖 Import Example Vocabulary
+
+To quickly experience the plugin features, you can download the example configuration file:
+
+1. Download [examples/example-data.json](examples/example-data.json)
+2. Click "Import" in the plugin settings page
+3. Select the downloaded `example-data.json` file
+
+> 💡 The example file is the value of `vocabulary`. You can copy its content and replace the `vocabulary` field in your `data.json` with it.
+
+### 🏷️ Tag Reference
+
+The plugin automatically recognizes and translates the following tags:
+
+| Tag | Display | Description |
+|------|---------|-------------|
+| `a1` | Basic daily words | CEFR level (most basic vocabulary) |
+| `a2` | Everyday expressions | CEFR level (daily communication) |
+| `b1` | Abstract/Academic/Slightly complex words | CEFR level (intermediate vocabulary) |
+| `core` | Core | Core/common words |
+| `idiom` | Idiom | Idiomatic expressions |
+| `slang` | Slang | Slang/colloquial expressions |
+| `formal` | Formal | Formal usage |
+| `informal` | Informal | Informal usage |
+| `technical` | Technical | Technical/domain-specific terms |
+
+> 💡 You can also use custom tags (e.g., `my-tag`). The plugin will display them as-is (with the first letter capitalized).
+
 #### Interface Language
 - Go to plugin settings
 - Select "Interface Language" at the top
@@ -164,6 +192,24 @@ API 需要接受 POST 请求，格式如下：
 3. 选择下载的 `example-data.json` 文件
 
 > 💡 示例文件就是 `vocabulary` 的值，直接复制替换到你 `data.json` 的 `vocabulary` 字段中即可。
+
+### 🏷️ 标签说明
+
+插件会自动识别并翻译以下标签：
+
+| 标签 | 显示 | 说明 |
+|------|------|------|
+| `a1` | 基础生活词 | CEFR 等级（最基础词汇） |
+| `a2` | 日常表达词 | CEFR 等级（日常交流词汇） |
+| `b1` | 抽象/学术/稍复杂词 | CEFR 等级（进阶词汇） |
+| `core` | 核心词 | 核心常用词汇 |
+| `idiom` | 习语 | 习语/惯用语 |
+| `slang` | 俚语 | 俚语/口语表达 |
+| `formal` | 正式 | 正式场合用语 |
+| `informal` | 非正式 | 非正式场合用语 |
+| `technical` | 专业术语 | 专业领域词汇 |
+
+> 💡 你也可以使用自定义标签（如 `my-tag`），插件会直接显示原文（首字母大写）。
 
 #### 界面语言切换
 - 进入插件设置页面
