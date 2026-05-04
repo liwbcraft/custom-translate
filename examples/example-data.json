@@ -1,0 +1,26 @@
+{
+	"hello": {
+	  "word": "hello",
+	  "phonetic": { "uk": "həˈləʊ", "us": "həˈloʊ" },
+	  "pos": "int./n.",
+	  "definition": "你好；喂",
+	  "examples": [{ "en": "Hello, world!", "zh": "你好，世界！" }],
+	  "synonyms": ["hi", "greetings"],
+	  "antonyms": ["goodbye"],
+	  "tags": ["A1", "greeting", "core"],
+	  "freq": 95,
+	  "cefr": "A1"
+	},
+	"example": {
+	  "word": "example",
+	  "phonetic": { "uk": "ɪɡˈzɑːmpl", "us": "ɪɡˈzæmpl" },
+	  "pos": "n.",
+	  "definition": "例子；范例",
+	  "examples": [{ "en": "Let me give you an example.", "zh": "让我给你举个例子。" }],
+	  "synonyms": ["instance", "sample"],
+	  "antonyms": [],
+	  "tags": ["B1", "core", "noun"],
+	  "freq": 85,
+	  "cefr": "B1"
+	}
+}

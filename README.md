@@ -155,6 +155,16 @@ API 需要接受 POST 请求，格式如下：
 - 双击单词后可以选中文字，使用快捷键查询
 - 支持按单词或词频排序、搜索、分页
 
+#### 📖 导入示例单词本
+
+如果你想快速体验插件功能，可以下载示例配置文件：
+
+1. 下载 [examples/example-data.json](examples/example-data.json)
+2. 在插件设置页面点击「导入」
+3. 选择下载的 `example-data.json` 文件
+
+> 💡 示例文件就是 `vocabulary` 的值，直接复制替换到你 `data.json` 的 `vocabulary` 字段中即可。
+
 #### 界面语言切换
 - 进入插件设置页面
 - 选择顶部的「界面语言」
