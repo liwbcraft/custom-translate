@@ -6,5 +6,8 @@
   "description": "Translate selected text via local API and manage your personal vocabulary.",
   "author": "Liwb",
   "authorUrl": "https://liwbcraft.github.io",
+  "fundingUrl": {
+		"爱发电(ifdian)": "https://ifdian.net/a/liwbcraft"
+	},
   "isDesktopOnly": true
 }

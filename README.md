@@ -4,119 +4,6 @@
 
 ---
 
-## English
-
-An Obsidian plugin for local translation and vocabulary management, designed to work with the open-source LibreTranslate.
-
-### Features
-
-- **Text Translation**: Uses local translation service (LibreTranslate required)
-- **Vocabulary Management**: Build and manage your personal word collection
-- **Word Details**: Store part of speech, definition, examples, synonyms, antonyms, tags, frequency, and CEFR level
-- **Phonetic Notation**: Save both UK and US pronunciations
-- **Import/Export**: Backup and restore your vocabulary
-- **Customizable Hotkeys**: Set your own shortcuts in Obsidian Settings → Hotkeys
-- **Bilingual Interface**: Switch between Chinese and English UI
-
-### Prerequisites
-
-This plugin depends on LibreTranslate translation service. Please ensure it is deployed and running.
-
-#### Quick Deploy with Docker
-
-```bash
-docker run -d --name libretranslate -p 5000:5000 -m 1.5g --memory-swap 1.5g libretranslate/libretranslate:v1.9.5 --load-only en,zh
-```
-
-After deployment, set the API URL to `http://127.0.0.1:5000/translate` in plugin settings.
-
-The API should accept POST requests with:
-
-```json
-{
-  "q": "text to translate",
-  "source": "auto",
-  "target": "zh"
-}
-```
-
-And return a response with a `translatedText` field.
-
-### Installation
-
-#### From Obsidian Community Plugins
-1. Open Obsidian Settings
-2. Go to Community Plugins and disable Safe Mode
-3. Browse and search for "Custom Translate"
-4. Install and enable the plugin
-
-#### Manual Installation
-1. Download the latest release from [GitHub Releases](https://github.com/liwbcraft/custom-translate/releases)
-2. Extract to `{your_vault}/.obsidian/plugins/custom-translate/`
-3. Reload Obsidian
-4. Enable the plugin in Community Plugins settings
-
-### Usage
-
-#### Translation
-- Select text in your note
-- Right-click and choose "Translate selected text"
-- Or use Command Palette (Ctrl/Cmd + P)
-- Or set a custom hotkey for faster access
-
-#### Vocabulary Management
-- Select a word, right-click to "Look up word" or "Add to vocabulary"
-- Click the book icon in the left ribbon
-- Double-click to select word text, then use hotkey to look up
-- Supports sorting by word or frequency, searching, and pagination
-
-#### 📖 Import Example Vocabulary
-
-To quickly experience the plugin features, you can download the example configuration file:
-
-1. Download [examples/example-data.json](examples/example-data.json)
-2. Click "Import" in the plugin settings page
-3. Select the downloaded `example-data.json` file
-
-> 💡 The example file is the value of `vocabulary`. You can copy its content and replace the `vocabulary` field in your `data.json` with it.
-
-### 🏷️ Tag Reference
-
-The plugin automatically recognizes and translates the following tags:
-
-| Tag | Display | Description |
-|------|---------|-------------|
-| `a1` | Basic daily words | CEFR level (most basic vocabulary) |
-| `a2` | Everyday expressions | CEFR level (daily communication) |
-| `b1` | Abstract/Academic/Slightly complex words | CEFR level (intermediate vocabulary) |
-| `core` | Core | Core/common words |
-| `idiom` | Idiom | Idiomatic expressions |
-| `slang` | Slang | Slang/colloquial expressions |
-| `formal` | Formal | Formal usage |
-| `informal` | Informal | Informal usage |
-| `technical` | Technical | Technical/domain-specific terms |
-
-> 💡 You can also use custom tags (e.g., `my-tag`). The plugin will display them as-is (with the first letter capitalized).
-
-#### Interface Language
-- Go to plugin settings
-- Select "Interface Language" at the top
-- Choose between Chinese and English
-
-### Hotkey Setup
-
-Go to **Obsidian Settings → Hotkeys** and search for "Custom Translate" to set your own shortcuts for:
-- Translate selected text
-- Look up selected word
-- Add selected word to vocabulary
-- Open vocabulary manager
-
-### License
-
-MIT
-
----
-
 ## 中文
 
 一款为 Obsidian 打造的本地翻译 + 单词本管理插件，需配合开源的 LibreTranslate 使用。
@@ -230,34 +117,122 @@ MIT
 
 ---
 
+---
+
+## English
+
+An Obsidian plugin for local translation and vocabulary management, designed to work with the open-source LibreTranslate.
+
+### Features
+
+- **Text Translation**: Uses local translation service (LibreTranslate required)
+- **Vocabulary Management**: Build and manage your personal word collection
+- **Word Details**: Store part of speech, definition, examples, synonyms, antonyms, tags, frequency, and CEFR level
+- **Phonetic Notation**: Save both UK and US pronunciations
+- **Import/Export**: Backup and restore your vocabulary
+- **Customizable Hotkeys**: Set your own shortcuts in Obsidian Settings → Hotkeys
+- **Bilingual Interface**: Switch between Chinese and English UI
+
+### Prerequisites
+
+This plugin depends on LibreTranslate translation service. Please ensure it is deployed and running.
+
+#### Quick Deploy with Docker
+
+```bash
+docker run -d --name libretranslate -p 5000:5000 -m 1.5g --memory-swap 1.5g libretranslate/libretranslate:v1.9.5 --load-only en,zh
+```
+
+After deployment, set the API URL to `http://127.0.0.1:5000/translate` in plugin settings.
+
+The API should accept POST requests with:
+
+```json
+{
+  "q": "text to translate",
+  "source": "auto",
+  "target": "zh"
+}
+```
+
+And return a response with a `translatedText` field.
+
+### Installation
+
+#### From Obsidian Community Plugins
+1. Open Obsidian Settings
+2. Go to Community Plugins and disable Safe Mode
+3. Browse and search for "Custom Translate"
+4. Install and enable the plugin
+
+#### Manual Installation
+1. Download the latest release from [GitHub Releases](https://github.com/liwbcraft/custom-translate/releases)
+2. Extract to `{your_vault}/.obsidian/plugins/custom-translate/`
+3. Reload Obsidian
+4. Enable the plugin in Community Plugins settings
+
+### Usage
+
+#### Translation
+- Select text in your note
+- Right-click and choose "Translate selected text"
+- Or use Command Palette (Ctrl/Cmd + P)
+- Or set a custom hotkey for faster access
+
+#### Vocabulary Management
+- Select a word, right-click to "Look up word" or "Add to vocabulary"
+- Click the book icon in the left ribbon
+- Double-click to select word text, then use hotkey to look up
+- Supports sorting by word or frequency, searching, and pagination
+
+#### 📖 Import Example Vocabulary
+
+To quickly experience the plugin features, you can download the example configuration file:
+
+1. Download [examples/example-data.json](examples/example-data.json)
+2. Click "Import" in the plugin settings page
+3. Select the downloaded `example-data.json` file
+
+> 💡 The example file is the value of `vocabulary`. You can copy its content and replace the `vocabulary` field in your `data.json` with it.
+
+### 🏷️ Tag Reference
+
+The plugin automatically recognizes and translates the following tags:
+
+| Tag | Display | Description |
+|------|---------|-------------|
+| `a1` | Basic daily words | CEFR level (most basic vocabulary) |
+| `a2` | Everyday expressions | CEFR level (daily communication) |
+| `b1` | Abstract/Academic/Slightly complex words | CEFR level (intermediate vocabulary) |
+| `core` | Core | Core/common words |
+| `idiom` | Idiom | Idiomatic expressions |
+| `slang` | Slang | Slang/colloquial expressions |
+| `formal` | Formal | Formal usage |
+| `informal` | Informal | Informal usage |
+| `technical` | Technical | Technical/domain-specific terms |
+
+> 💡 You can also use custom tags (e.g., `my-tag`). The plugin will display them as-is (with the first letter capitalized).
+
+#### Interface Language
+- Go to plugin settings
+- Select "Interface Language" at the top
+- Choose between Chinese and English
+
+### Hotkey Setup
+
+Go to **Obsidian Settings → Hotkeys** and search for "Custom Translate" to set your own shortcuts for:
+- Translate selected text
+- Look up selected word
+- Add selected word to vocabulary
+- Open vocabulary manager
+
+### License
+
+MIT
+
 ## Links | 链接
 
 - [GitHub Repository](https://github.com/liwbcraft/custom-translate)
 - [Issues](https://github.com/liwbcraft/custom-translate/issues)
 - [LibreTranslate](https://github.com/LibreTranslate/LibreTranslate)
 
-### `LICENSE`
-
-```text
-MIT License
-
-Copyright (c) 2026 Liwb
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-```

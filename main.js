@@ -6,13 +6,15 @@ const LOCALES = {
         // 通用
         'translate': '翻译',
         'lookup': '查询单词',
-        'add': '添加到单词本',
+        'add_word': '添加到单词本',
         'edit': '编辑',
         'delete': '删除',
         'save': '保存',
         'cancel': '取消',
         'close': '关闭',
         'settings': '设置',
+        'note': '备注',
+        'optional': '可选',
         // 单词卡片
         'definition': '释义',
         'examples': '例句',
@@ -82,6 +84,8 @@ const LOCALES = {
         'tip_translate': '选中文字后可使用快捷键翻译',
         'tip_double_click': '双击单词可选中文字',
         'tip_edit': '点击「编辑」按钮可修改单词信息',
+		'preset_desc': '可快速切换的目标语言列表，点击下方按钮添加自定义语言。备注列可填写说明信息（如：简体中文、美式英语等）。',
+		'add_language_desc': '添加自定义语言后，可在状态栏、右键菜单中快速切换。备注为可选，用于说明语言变体。',
         // 部署相关
         'deploy_title': '翻译服务部署',
         'deploy_desc': '本插件依赖 LibreTranslate 翻译服务，请确保已部署并运行',
@@ -104,6 +108,10 @@ const LOCALES = {
         'interface_language_desc': '选择插件界面的显示语言',
         'chinese': '中文',
         'english': 'English',
+        // 添加语言相关
+        'add_language': '添加语言',
+        'language_name': '语言名称',
+        'language_code': '语言代码',
         // 标签（中文）
         'tag_noun': '名词',
         'tag_verb': '动词',
@@ -153,13 +161,15 @@ const LOCALES = {
         // Common
         'translate': 'Translate',
         'lookup': 'Look up',
-        'add': 'Add to vocabulary',
+        'add_word': 'Add to vocabulary',
         'edit': 'Edit',
         'delete': 'Delete',
         'save': 'Save',
         'cancel': 'Cancel',
         'close': 'Close',
         'settings': 'Settings',
+        'note': 'Note',
+        'optional': 'Optional',
         // Word card
         'definition': 'Definition',
         'examples': 'Examples',
@@ -229,6 +239,8 @@ const LOCALES = {
         'tip_translate': 'Select text and use hotkey to translate',
         'tip_double_click': 'Double-click to select text',
         'tip_edit': 'Click "Edit" to modify word info',
+		'preset_desc': 'List of target languages for quick switching. Click the button below to add custom languages. The note column can be used for explanatory information (e.g., Simplified Chinese, American English).',
+		'add_language_desc': 'After adding a custom language, you can quickly switch to it in the status bar and right-click menu. Note is optional and can be used to describe language variants.',
         // Deploy
         'deploy_title': 'Deploy Translation Service',
         'deploy_desc': 'This plugin depends on LibreTranslate translation service. Please ensure it is deployed and running.',
@@ -251,6 +263,10 @@ const LOCALES = {
         'interface_language_desc': 'Select the display language for the plugin interface',
         'chinese': '中文',
         'english': 'English',
+        // Add language
+        'add_language': 'Add Language',
+        'language_name': 'Language name',
+        'language_code': 'Language code',
         // Tags (English)
         'tag_noun': 'Noun',
         'tag_verb': 'Verb',
@@ -360,17 +376,17 @@ const DEFAULT_SETTINGS = {
     pageSize: 20,
     language: 'zh',
     languagePresets: [
-        { name: '中文 | Chinese', code: 'zh' },
-        { name: 'English', code: 'en' },
-        { name: '日语 | Japanese', code: 'ja' },
-        { name: '韩语 | Korean', code: 'ko' },
-        { name: '法语 | French', code: 'fr' },
-        { name: '德语 | German', code: 'de' },
-        { name: '西班牙语 | Spanish', code: 'es' },
-        { name: '葡萄牙语 | Portuguese', code: 'pt' },
-        { name: '俄语 | Russian', code: 'ru' },
-        { name: '意大利语 | Italian', code: 'it' },
-        { name: '阿拉伯语 | Arabic', code: 'ar' }
+        { name: '中文', code: 'zh', note: 'Simplified Chinese' },
+        { name: 'English', code: 'en', note: 'English' },
+        { name: '日本語', code: 'ja', note: 'Japanese' },
+        { name: '한국어', code: 'ko', note: 'Korean' },
+        { name: 'Français', code: 'fr', note: 'French' },
+        { name: 'Deutsch', code: 'de', note: 'German' },
+        { name: 'Español', code: 'es', note: 'Spanish' },
+        { name: 'Português', code: 'pt', note: 'Portuguese' },
+        { name: 'Русский', code: 'ru', note: 'Russian' },
+        { name: 'Italiano', code: 'it', note: 'Italian' },
+        { name: 'العربية', code: 'ar', note: 'Arabic' }
     ]
 };
 
@@ -614,8 +630,8 @@ class VocabularyManager {
                 ${data.synonyms && data.synonyms.length > 0 ? `<div style="margin-bottom: 8px; padding: 6px 0; border-top: 1px solid var(--background-modifier-border); font-size: 0.8em;"><span style="color: var(--text-muted);">🔗 ${t('synonyms')}: </span><span style="color: var(--text-normal);">${data.synonyms.map(s => this.escapeHtml(s)).join(', ')}</span></div>` : ''}
                 ${data.antonyms && data.antonyms.length > 0 ? `<div style="margin-bottom: 16px; padding: 6px 0; font-size: 0.8em;"><span style="color: var(--text-muted);">⚠️ ${t('antonyms')}: </span><span style="color: var(--text-normal);">${data.antonyms.map(a => this.escapeHtml(a)).join(', ')}</span></div>` : ''}
                 <div style="display: flex; gap: 10px; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--background-modifier-border);">
-                    <button class="edit-word" style="flex: 1; padding: 8px; background: var(--interactive-normal); border: none; border-radius: 6px; cursor: pointer; font-size: 0.85em;">✏️ ${t('edit')}</button>
-                    <button class="delete-word" style="flex: 1; padding: 8px; background: var(--background-modifier-error); color: var(--text-error); border: none; border-radius: 6px; cursor: pointer; font-size: 0.85em;">🗑️ ${t('delete')}</button>
+                    <button class="edit-word" style="flex: 1; padding: 8px; background: var(--interactive-accent); color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.85em;">✏️ ${t('edit')}</button>
+                    <button class="delete-word" style="flex: 1; padding: 8px; background: #e74c3c; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.85em;">🗑️ ${t('delete')}</button>
                 </div>
             </div>
         `;
@@ -700,7 +716,7 @@ class VocabularyManager {
             </div>
             <p style="margin-bottom: 20px; font-size: 0.9em;">"<strong>${this.escapeHtml(word)}</strong>" ${t('word_not_in_vocab')}</p>
             <div style="display: flex; gap: 10px;">
-                <button class="add-word" style="flex: 1; padding: 8px; background: var(--interactive-accent); border: none; border-radius: 6px; cursor: pointer; color: white; font-size: 0.85em;">📝 ${t('add')}</button>
+                <button class="add-word" style="flex: 1; padding: 8px; background: var(--interactive-accent); border: none; border-radius: 6px; cursor: pointer; color: white; font-size: 0.85em;">📝 ${t('add_word')}</button>
                 <button class="close-modal" style="flex: 1; padding: 8px; background: var(--background-secondary); border: none; border-radius: 6px; cursor: pointer; font-size: 0.85em;">${t('cancel')}</button>
             </div>
         </div>`;
@@ -757,7 +773,7 @@ class VocabularyManager {
                 </div>
             </div>
             <div style="padding: 16px 18px;">
-                <div style="margin-bottom: 12px;"><label style="display: block; margin-bottom: 4px; font-size: 0.85em;">${t('add')}</label><input type="text" id="edit-word" value="${this.escapeHtml(data.word)}" style="width: 100%; padding: 8px; border-radius: 6px; border: 1px solid var(--background-modifier-border); background: var(--background-secondary); font-size: 0.9em;"></div>
+                <div style="margin-bottom: 12px;"><label style="display: block; margin-bottom: 4px; font-size: 0.85em;">${t('add_word')}</label><input type="text" id="edit-word" value="${this.escapeHtml(data.word)}" style="width: 100%; padding: 8px; border-radius: 6px; border: 1px solid var(--background-modifier-border); background: var(--background-secondary); font-size: 0.9em;"></div>
                 <div style="margin-bottom: 12px;"><label style="font-size: 0.85em;">${t('phonetic_uk')}</label><input type="text" id="edit-phonetic-uk" value="${this.escapeHtml(data.phonetic?.uk || '')}" style="width: 100%; padding: 8px; border-radius: 6px; font-size: 0.9em;"></div>
                 <div style="margin-bottom: 12px;"><label style="font-size: 0.85em;">${t('phonetic_us')}</label><input type="text" id="edit-phonetic-us" value="${this.escapeHtml(data.phonetic?.us || '')}" style="width: 100%; padding: 8px; border-radius: 6px; font-size: 0.9em;"></div>
                 <div style="margin-bottom: 12px;"><label style="font-size: 0.85em;">${t('pos')}</label><input type="text" id="edit-pos" value="${this.escapeHtml(data.pos)}" style="width: 100%; padding: 8px; border-radius: 6px; font-size: 0.9em;"></div>
@@ -867,12 +883,12 @@ class VocabularyManager {
         modal.innerHTML = `
             <div style="position: sticky; top: 0; background: var(--background-primary); padding: 14px 18px; border-bottom: 1px solid var(--background-modifier-border); border-radius: 12px 12px 0 0;">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <h3 style="margin: 0; font-size: 1.1em;">📝 ${t('add_to_vocab')}</h3>
+                    <h3 style="margin: 0; font-size: 1.1em;">📝 ${t('add_word')}</h3>
                     <button class="close-modal" style="background: transparent; border: none; cursor: pointer; font-size: 18px; color: var(--text-muted); padding: 2px 6px; border-radius: 4px;">✕</button>
                 </div>
             </div>
             <div style="padding: 16px 18px;">
-                <div style="margin-bottom: 12px;"><label style="font-size: 0.85em;">${t('add')}</label><input type="text" id="new-word" value="${this.escapeHtml(word)}" style="width:100%;padding:8px;border-radius:6px;border:1px solid var(--background-modifier-border);background:var(--background-secondary);font-size:0.9em;"></div>
+                <div style="margin-bottom: 12px;"><label style="font-size: 0.85em;">${t('add_word')}</label><input type="text" id="new-word" value="${this.escapeHtml(word)}" style="width:100%;padding:8px;border-radius:6px;border:1px solid var(--background-modifier-border);background:var(--background-secondary);font-size:0.9em;"></div>
                 <div style="margin-bottom: 12px;"><label style="font-size: 0.85em;">${t('phonetic_uk')}</label><input type="text" id="new-phonetic-uk" style="width:100%;padding:8px;border-radius:6px;font-size:0.9em;"></div>
                 <div style="margin-bottom: 12px;"><label style="font-size: 0.85em;">${t('phonetic_us')}</label><input type="text" id="new-phonetic-us" style="width:100%;padding:8px;border-radius:6px;font-size:0.9em;"></div>
                 <div style="margin-bottom: 12px;"><label style="font-size: 0.85em;">${t('pos')}</label><input type="text" id="new-pos" style="width:100%;padding:8px;border-radius:6px;font-size:0.9em;"></div>
@@ -1007,27 +1023,28 @@ class CustomTranslate extends Plugin {
 
         this.addCommand({ id: 'translate-selected', name: `${t('translate')}`, callback: () => this.translateCurrentSelection() });
         this.addCommand({ id: 'lookup-word', name: `${t('lookup')}`, callback: () => { const text = this.getSelectedText(); if (text) this.vocabManager.lookUp(text); else new Notice(`⚠️ ${t('please_select_word')}`); } });
-        this.addCommand({ id: 'add-word-to-vocab', name: `${t('add')}`, callback: () => { const text = this.getSelectedText(); if (text) this.vocabManager.addWordWithFullDialog(text); else new Notice(`⚠️ ${t('please_select_word')}`); } });
+        this.addCommand({ id: 'add-word-to-vocab', name: `${t('add_word')}`, callback: () => { const text = this.getSelectedText(); if (text) this.vocabManager.addWordWithFullDialog(text); else new Notice(`⚠️ ${t('please_select_word')}`); } });
         this.addCommand({ id: 'open-vocabulary', name: `📚 ${t('open_vocab')}`, callback: () => this.openVocabularyManager() });
 
         for (const preset of this.settings.languagePresets) {
             this.addCommand({ id: `set-language-${preset.code}`, name: `${t('target_language')}: ${preset.name}`, callback: () => { this.settings.targetLang = preset.code; this.saveSettings(); this.updateStatusBar(); new Notice(`✅ ${t('target_language')}: ${preset.name}`); } });
         }
 
+        // 左侧边栏图标 - 使用地球图标
         this.addRibbonIcon('globe', `${t('translate')}`, () => this.translateCurrentSelection());
         this.addRibbonIcon('book', `${t('open_vocab')}`, () => this.openVocabularyManager());
         this.addSettingTab(new CustomTranslateSettingTab(this.app, this));
-        this.addStatusBarItem();
+        this.initStatusBar();
     }
     
     addTranslationAndVocabularyItems(menu, selectedText, isEditMode) {
-        menu.addItem((item) => item.setTitle(`${t('translate')}`).setIcon('languages').onClick(() => {
+        menu.addItem((item) => item.setTitle(`${t('translate')}`).setIcon('globe').onClick(() => {
             if (isEditMode) { const editor = this.app.workspace.activeEditor?.editor; if (editor) this.translateAndDisplay(selectedText, editor); }
             else { const selection = window.getSelection(); this.translateAndDisplayInReadingMode(selectedText, selection); }
         }));
         menu.addSeparator();
         menu.addItem((item) => item.setTitle(`${t('lookup')}`).setIcon('search').onClick(() => this.vocabManager.lookUp(selectedText)));
-        menu.addItem((item) => item.setTitle(`${t('add')}`).setIcon('plus').onClick(() => this.vocabManager.addWordWithFullDialog(selectedText)));
+        menu.addItem((item) => item.setTitle(`${t('add_word')}`).setIcon('plus').onClick(() => this.vocabManager.addWordWithFullDialog(selectedText)));
     }
 
     getSelectedText() {
@@ -1289,7 +1306,7 @@ class CustomTranslate extends Plugin {
                 <div style="flex: 1; display: flex; gap: 6px; justify-content: flex-end;">
                     <button id="export-vocab" style="padding: 5px 12px; cursor: pointer; border-radius: 5px; border: 1px solid var(--background-modifier-border); background: var(--background-secondary); font-size: 0.8em;">📤 ${t('export')}</button>
                     <button id="import-vocab" style="padding: 5px 12px; cursor: pointer; border-radius: 5px; border: 1px solid var(--background-modifier-border); background: var(--background-secondary); font-size: 0.8em;">📥 ${t('import')}</button>
-                    <button id="add-word" style="padding: 5px 12px; cursor: pointer; border-radius: 5px; background: var(--interactive-accent); color: white; border: none; font-size: 0.8em;">+ ${t('add')}</button>
+                    <button id="add-word" style="padding: 5px 12px; cursor: pointer; border-radius: 5px; background: var(--interactive-accent); color: white; border: none; font-size: 0.8em;">+ ${t('add_word')}</button>
                 </div>
             </div>
             <div id="vocab-list" style="flex: 1; overflow-y: auto; padding: 8px 18px;"></div>
@@ -1391,10 +1408,10 @@ class CustomTranslate extends Plugin {
         submenu.setTitle(`${t('target_language')}`);
         submenu.setIcon('switch');
         for (const preset of this.settings.languagePresets) {
-            submenu.addItem((item) => item.setTitle(`${preset.name} ${this.settings.targetLang === preset.code ? '✓' : ''}`).onClick(() => { this.settings.targetLang = preset.code; this.saveSettings(); this.updateStatusBar(); new Notice(`✅ ${t('target_language')}: ${preset.name}`); }));
+            submenu.addItem((item) => item.setTitle(preset.name).onClick(() => { this.settings.targetLang = preset.code; this.saveSettings(); this.updateStatusBar(); new Notice(`✅ ${t('target_language')}: ${preset.name}`); }));
         }
         submenu.addSeparator();
-        submenu.addItem((item) => item.setTitle(`自定义 | Custom...`).setIcon('pencil').onClick(() => { this.showCustomLanguageInputForMenu(); }));
+        submenu.addItem((item) => item.setTitle(`✨ ${t('add_language')}`).setIcon('plus').onClick(() => { this.showCustomLanguageInputForMenu(); }));
     }
 
     addReadingModeLanguageSubmenu(menu) {
@@ -1402,68 +1419,143 @@ class CustomTranslate extends Plugin {
         submenu.setTitle(`${t('target_language')}`);
         submenu.setIcon('switch');
         for (const preset of this.settings.languagePresets) {
-            submenu.addItem((item) => item.setTitle(`${preset.name} ${this.settings.targetLang === preset.code ? '✓' : ''}`).onClick(() => { this.settings.targetLang = preset.code; this.saveSettings(); this.updateStatusBar(); new Notice(`✅ ${t('target_language')}: ${preset.name}`); }));
+            submenu.addItem((item) => item.setTitle(preset.name).onClick(() => { this.settings.targetLang = preset.code; this.saveSettings(); this.updateStatusBar(); new Notice(`✅ ${t('target_language')}: ${preset.name}`); }));
         }
         submenu.addSeparator();
-        submenu.addItem((item) => item.setTitle(`自定义 | Custom...`).setIcon('pencil').onClick(() => { this.showCustomLanguageInputForMenu(); }));
+        submenu.addItem((item) => item.setTitle(`✨ ${t('add_language')}`).setIcon('plus').onClick(() => { this.showCustomLanguageInputForMenu(); }));
     }
 
     async showCustomLanguageInputForMenu() {
         const inputContainer = document.createElement('div');
-        inputContainer.style.cssText = `position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: var(--background-primary); border: 1px solid var(--background-modifier-border); border-radius: 10px; padding: 18px; z-index: 1000; min-width: 280px; box-shadow: 0 6px 18px rgba(0,0,0,0.15);`;
-        inputContainer.innerHTML = `<h4 style="margin-top: 0;">${t('target_language')}</h4><p style="color: var(--text-muted); font-size: 0.85em;">${t('api_desc')} (zh, en, ja, fr...)</p><input type="text" id="lang-input" placeholder="zh" style="width: 100%; padding: 8px; margin: 10px 0; border-radius: 6px; border: 1px solid var(--background-modifier-border); background: var(--background-secondary); color: var(--text-normal);"><div style="display: flex; gap: 10px; justify-content: flex-end;"><button id="cancel-btn" style="padding: 6px 12px; border-radius: 5px; background: var(--background-secondary); border: none; cursor: pointer;">${t('cancel')}</button><button id="confirm-btn" style="padding: 6px 12px; background: var(--interactive-accent); color: white; border: none; border-radius: 5px; cursor: pointer;">${t('save')}</button></div>`;
+        inputContainer.style.cssText = `position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: var(--background-primary); border: 1px solid var(--background-modifier-border); border-radius: 10px; padding: 18px; z-index: 1000; min-width: 320px; box-shadow: 0 6px 18px rgba(0,0,0,0.15);`;
+        inputContainer.innerHTML = `<h4 style="margin-top: 0;">✨ ${t('add_language')}</h4>
+            <p style="color: var(--text-muted); font-size: 0.85em; margin-bottom: 12px;">${t('language_code')} (zh, en, ja, fr...)</p>
+            <input type="text" id="lang-name" placeholder="${t('language_name')}" style="width: 100%; padding: 8px; margin: 5px 0; border-radius: 6px; border: 1px solid var(--background-modifier-border); background: var(--background-secondary);">
+            <input type="text" id="lang-code" placeholder="${t('language_code')}" style="width: 100%; padding: 8px; margin: 5px 0; border-radius: 6px; border: 1px solid var(--background-modifier-border); background: var(--background-secondary);">
+            <input type="text" id="lang-note" placeholder="${t('note')} (${t('optional')})" style="width: 100%; padding: 8px; margin: 5px 0; border-radius: 6px; border: 1px solid var(--background-modifier-border); background: var(--background-secondary);">
+            <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 12px;">
+                <button id="cancel-btn" style="padding: 6px 12px; border-radius: 5px; background: var(--background-secondary); border: none; cursor: pointer;">${t('cancel')}</button>
+                <button id="confirm-btn" style="padding: 6px 12px; background: var(--interactive-accent); color: white; border: none; border-radius: 5px; cursor: pointer;">${t('add_language')}</button>
+            </div>`;
         document.body.appendChild(inputContainer);
-        const input = inputContainer.querySelector('#lang-input');
-        input.focus();
+        const nameInput = inputContainer.querySelector('#lang-name');
+        const codeInput = inputContainer.querySelector('#lang-code');
+        const noteInput = inputContainer.querySelector('#lang-note');
+        codeInput.focus();
         const cleanup = () => { inputContainer.remove(); if (overlay) overlay.remove(); };
         const confirmBtn = inputContainer.querySelector('#confirm-btn');
         const cancelBtn = inputContainer.querySelector('#cancel-btn');
         const overlay = createOverlay(() => cleanup());
         document.body.appendChild(overlay);
-        confirmBtn.onclick = () => { const langCode = input.value.trim().toLowerCase(); if (langCode) { this.settings.targetLang = langCode; this.saveSettings(); this.updateStatusBar(); new Notice(`✅ ${t('target_language')}: ${langCode}`); } cleanup(); };
+        confirmBtn.onclick = () => { 
+            const langName = nameInput.value.trim(); 
+            const langCode = codeInput.value.trim().toLowerCase(); 
+            const langNote = noteInput.value.trim();
+            if (langName && langCode) { 
+                this.settings.languagePresets.push({ name: langName, code: langCode, note: langNote });
+                this.saveSettings();
+                this.updateStatusBar();
+                new Notice(`✅ ${t('add_language')}: ${langName} (${langCode})`);
+                cleanup();
+            } else {
+                new Notice(`⚠️ ${t('please_fill_word_def')}`);
+            }
+        };
         cancelBtn.onclick = cleanup;
     }
 
-    getLanguageName(code) { const preset = this.settings.languagePresets.find(p => p.code === code); return preset ? preset.name : code; }
+    getLanguageName(code) { 
+        const preset = this.settings.languagePresets.find(p => p.code === code); 
+        return preset ? preset.name : code; 
+    }
 
-    addStatusBarItem() {
-        const statusBarItem = super.addStatusBarItem();
+    initStatusBar() {
+        const statusBarItem = this.addStatusBarItem();
         statusBarItem.addClass('plugin-custom-translate');
-        statusBarItem.setText(`🌐 ${t('target_language')}: ${this.getLanguageName(this.settings.targetLang)}`);
-        statusBarItem.setAttribute('aria-label', `${t('target_language')}`);
+        
+        // 添加 ❯ 图标
+        const iconSpan = document.createElement('span');
+        iconSpan.textContent = '❯ ';
+        iconSpan.style.fontSize = '0.9em';
+        statusBarItem.appendChild(iconSpan);
+        
+        // 显示当前目标语言的值
+        const textSpan = document.createElement('span');
+        textSpan.textContent = this.getLanguageName(this.settings.targetLang);
+        statusBarItem.appendChild(textSpan);
+        
         statusBarItem.style.cursor = 'pointer';
         
-        statusBarItem.onClickEvent(async (e) => {
+        statusBarItem.onclick = (e) => {
             const menu = new Menu();
             for (const preset of this.settings.languagePresets) {
-                menu.addItem((item) => item.setTitle(`${preset.name} ${this.settings.targetLang === preset.code ? '✓' : ''}`).setIcon(this.settings.targetLang === preset.code ? 'checkmark' : 'languages').onClick(() => { this.settings.targetLang = preset.code; this.saveSettings(); statusBarItem.setText(`🌐 ${t('target_language')}: ${preset.name}`); new Notice(`✅ ${t('target_language')}: ${preset.name}`); }));
+                // 显示带备注的语言名称
+                const displayName = preset.note ? `${preset.name} (${preset.note})` : preset.name;
+                menu.addItem((item) => item
+                    .setTitle(displayName)
+                    .setIcon(this.settings.targetLang === preset.code ? 'checkmark' : 'blank')
+                    .onClick(() => {
+                        this.settings.targetLang = preset.code;
+                        this.saveSettings();
+                        textSpan.textContent = this.getLanguageName(this.settings.targetLang);
+                        new Notice(`✅ ${t('target_language')}: ${preset.name}`);
+                    }));
             }
             menu.addSeparator();
-            menu.addItem((item) => item.setTitle(`自定义 | Custom...`).setIcon('pencil').onClick(() => { this.showCustomLanguageInputForStatusBar(statusBarItem); }));
+            menu.addItem((item) => item
+                .setTitle(`✨ ${t('add_language')}`)
+                .setIcon('plus')
+                .onClick(() => { this.showCustomLanguageInputForStatusBar(textSpan); }));
             menu.showAtMouseEvent(e);
-        });
+        };
         this.statusBarItem = statusBarItem;
     }
 
-    async showCustomLanguageInputForStatusBar(statusBarItem) {
+    async showCustomLanguageInputForStatusBar(textSpan) {
         const inputContainer = document.createElement('div');
-        inputContainer.style.cssText = `position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: var(--background-primary); border: 1px solid var(--background-modifier-border); border-radius: 10px; padding: 18px; z-index: 1000; min-width: 280px; box-shadow: 0 6px 18px rgba(0,0,0,0.15);`;
-        inputContainer.innerHTML = `<h4 style="margin-top: 0;">${t('target_language')}</h4><p style="color: var(--text-muted); font-size: 0.85em;">${t('api_desc')} (zh, en, ja, fr...)</p><input type="text" id="lang-input" placeholder="zh" style="width: 100%; padding: 8px; margin: 10px 0; border-radius: 6px; border: 1px solid var(--background-modifier-border); background: var(--background-secondary); color: var(--text-normal);"><div style="display: flex; gap: 10px; justify-content: flex-end;"><button id="cancel-btn" style="padding: 6px 12px; border-radius: 5px; background: var(--background-secondary); border: none; cursor: pointer;">${t('cancel')}</button><button id="confirm-btn" style="padding: 6px 12px; background: var(--interactive-accent); color: white; border: none; border-radius: 5px; cursor: pointer;">${t('save')}</button></div>`;
+        inputContainer.style.cssText = `position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: var(--background-primary); border: 1px solid var(--background-modifier-border); border-radius: 10px; padding: 18px; z-index: 1000; min-width: 320px; box-shadow: 0 6px 18px rgba(0,0,0,0.15);`;
+        inputContainer.innerHTML = `<h4 style="margin-top: 0;">✨ ${t('add_language')}</h4>
+            <p style="color: var(--text-muted); font-size: 0.85em; margin-bottom: 12px;">${t('language_code')} (zh, en, ja, fr...)</p>
+            <input type="text" id="lang-name" placeholder="${t('language_name')}" style="width: 100%; padding: 8px; margin: 5px 0; border-radius: 6px; border: 1px solid var(--background-modifier-border); background: var(--background-secondary);">
+            <input type="text" id="lang-code" placeholder="${t('language_code')}" style="width: 100%; padding: 8px; margin: 5px 0; border-radius: 6px; border: 1px solid var(--background-modifier-border); background: var(--background-secondary);">
+            <input type="text" id="lang-note" placeholder="${t('note')} (${t('optional')})" style="width: 100%; padding: 8px; margin: 5px 0; border-radius: 6px; border: 1px solid var(--background-modifier-border); background: var(--background-secondary);">
+            <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 12px;">
+                <button id="cancel-btn" style="padding: 6px 12px; border-radius: 5px; background: var(--background-secondary); border: none; cursor: pointer;">${t('cancel')}</button>
+                <button id="confirm-btn" style="padding: 6px 12px; background: var(--interactive-accent); color: white; border: none; border-radius: 5px; cursor: pointer;">${t('add_language')}</button>
+            </div>`;
         document.body.appendChild(inputContainer);
-        const input = inputContainer.querySelector('#lang-input');
-        input.focus();
+        const nameInput = inputContainer.querySelector('#lang-name');
+        const codeInput = inputContainer.querySelector('#lang-code');
+        const noteInput = inputContainer.querySelector('#lang-note');
+        codeInput.focus();
         const cleanup = () => { inputContainer.remove(); if (overlay) overlay.remove(); };
         const confirmBtn = inputContainer.querySelector('#confirm-btn');
         const cancelBtn = inputContainer.querySelector('#cancel-btn');
         const overlay = createOverlay(() => cleanup());
         document.body.appendChild(overlay);
-        confirmBtn.onclick = () => { const langCode = input.value.trim().toLowerCase(); if (langCode) { this.settings.targetLang = langCode; this.saveSettings(); statusBarItem.setText(`🌐 ${t('target_language')}: ${langCode}`); new Notice(`✅ ${t('target_language')}: ${langCode}`); } cleanup(); };
+        confirmBtn.onclick = () => { 
+            const langName = nameInput.value.trim(); 
+            const langCode = codeInput.value.trim().toLowerCase(); 
+            const langNote = noteInput.value.trim();
+            if (langName && langCode) { 
+                this.settings.languagePresets.push({ name: langName, code: langCode, note: langNote });
+                this.saveSettings();
+                textSpan.textContent = langName;
+                new Notice(`✅ ${t('add_language')}: ${langName} (${langCode})`);
+                cleanup();
+            } else {
+                new Notice(`⚠️ ${t('please_fill_word_def')}`);
+            }
+        };
         cancelBtn.onclick = cleanup;
     }
 
     updateStatusBar() { 
         if (this.statusBarItem) {
-            this.statusBarItem.setText(`🌐 ${t('target_language')}: ${this.getLanguageName(this.settings.targetLang)}`);
+            const textSpan = this.statusBarItem.querySelector('span:last-child');
+            if (textSpan) {
+                textSpan.textContent = this.getLanguageName(this.settings.targetLang);
+            }
         }
     }
 
@@ -1580,31 +1672,28 @@ class CustomTranslateSettingTab extends PluginSettingTab {
         
         containerEl.createEl('hr');
         
-        // 部署说明区块（仅保留 Docker）- 增加间距
+        // 部署说明区块
         containerEl.createEl('h3', { text: '🚀 ' + t('deploy_title') });
         const deployDesc = containerEl.createDiv();
         deployDesc.createEl('p', { text: t('deploy_desc') });
         deployDesc.style.marginBottom = '16px';
         
-        // Docker 部署 - 命令换行显示
+        // Docker 部署
         const dockerSection = containerEl.createDiv();
         dockerSection.style.marginBottom = '12px';
         dockerSection.createEl('strong', { text: '🐳 ' + t('docker_cmd') });
         
-        // 命令容器，支持换行
         const dockerCodeContainer = dockerSection.createDiv();
         dockerCodeContainer.style.cssText = 'background: var(--background-secondary); padding: 12px; border-radius: 6px; margin: 8px 0; overflow-x: auto; white-space: normal; word-break: break-all;';
         const dockerCode = dockerCodeContainer.createEl('code');
         dockerCode.style.cssText = 'white-space: pre-wrap; word-break: break-all; font-size: 0.85em;';
         dockerCode.setText('docker run -d --name libretranslate -p 5000:5000 -m 1.5g --memory-swap 1.5g libretranslate/libretranslate:v1.9.5 --load-only en,zh');
         
-        // 配置说明 - 增加上下间距
         const afterDeploy = containerEl.createDiv();
         afterDeploy.style.marginTop = '16px';
         afterDeploy.style.marginBottom = '16px';
         afterDeploy.createEl('p', { text: t('after_deploy'), style: 'color: var(--text-accent); margin: 0;' });
         
-        // 文档链接按钮
         new Setting(containerEl)
             .setName(t('view_docs'))
             .setDesc('https://github.com/LibreTranslate/LibreTranslate')
@@ -1623,15 +1712,185 @@ class CustomTranslateSettingTab extends PluginSettingTab {
         containerEl.createEl('h3', { text: '📝 ' + t('translation_settings') });
         new Setting(containerEl).setName(t('display_mode')).setDesc(t('display_desc')).addDropdown(dropdown => dropdown.addOption('below', t('display_below')).addOption('replace', t('display_replace')).setValue(this.plugin.settings.displayMode).onChange(async (value) => { this.plugin.settings.displayMode = value; await this.plugin.saveSettings(); }));
         
+        // ==================== 语言预设 ====================
         containerEl.createEl('h3', { text: '🌍 ' + t('language_presets') });
-        const langContainer = containerEl.createDiv();
+        
+        // 添加说明文字
+		const presetDesc = containerEl.createDiv();
+		presetDesc.style.cssText = 'color: var(--text-muted); font-size: 0.8em; margin-bottom: 12px;';
+		presetDesc.setText(t('preset_desc'));
+        
+        // 语言预设列表容器 - 使用网格布局确保对齐
+        const langTable = containerEl.createDiv();
+        langTable.style.cssText = 'width: 100%; margin: 12px 0; border: 1px solid var(--background-modifier-border); border-radius: 8px; overflow: hidden;';
+        
+        // 表头 - 添加备注列
+        const headerRow = langTable.createDiv();
+        headerRow.style.cssText = 'display: grid; grid-template-columns: 2.5fr 1.5fr 2fr 1fr; background: var(--background-secondary); border-bottom: 1px solid var(--background-modifier-border);';
+        
+        const headerLang = headerRow.createDiv();
+        headerLang.style.cssText = 'padding: 10px 12px; font-weight: bold; font-size: 0.85em; color: var(--text-normal);';
+        headerLang.setText(t('language_presets'));
+        
+        const headerCode = headerRow.createDiv();
+        headerCode.style.cssText = 'padding: 10px 12px; font-weight: bold; font-size: 0.85em; color: var(--text-normal);';
+        headerCode.setText('Code');
+        
+        const headerNote = headerRow.createDiv();
+        headerNote.style.cssText = 'padding: 10px 12px; font-weight: bold; font-size: 0.85em; color: var(--text-normal);';
+        headerNote.setText(t('note'));
+        
+        const headerAction = headerRow.createDiv();
+        headerAction.style.cssText = 'padding: 10px 12px; font-weight: bold; font-size: 0.85em; color: var(--text-normal); text-align: center;';
+        headerAction.setText(t('delete'));
+        
+        // 内置语言的默认备注映射（英文）
+        const defaultNotes = {
+            'zh': 'Simplified Chinese',
+            'en': 'English',
+            'ja': 'Japanese',
+            'ko': 'Korean',
+            'fr': 'French',
+            'de': 'German',
+            'es': 'Spanish',
+            'pt': 'Portuguese',
+            'ru': 'Russian',
+            'it': 'Italian',
+            'ar': 'Arabic'
+        };
+        
+        // 语言列表
+        const langListContainer = langTable.createDiv();
+        langListContainer.style.cssText = 'display: flex; flex-direction: column;';
+        
         for (let i = 0; i < this.plugin.settings.languagePresets.length; i++) {
             const preset = this.plugin.settings.languagePresets[i];
             const index = i;
-            new Setting(langContainer).setName(preset.name).setDesc(`Code: ${preset.code}`).addButton(btn => btn.setButtonText(t('delete')).setWarning().onClick(async () => { this.plugin.settings.languagePresets.splice(index, 1); await this.plugin.saveSettings(); this.display(); new Notice(`✅ ${t('delete')}`); }));
+            
+            // 确保每个预设都有 note 字段（兼容旧数据）
+            if (!preset.note) {
+                preset.note = defaultNotes[preset.code] || '';
+            }
+            
+            const row = langListContainer.createDiv();
+            row.style.cssText = 'display: grid; grid-template-columns: 2.5fr 1.5fr 2fr 1fr; border-bottom: 1px solid var(--background-modifier-border); background: var(--background-primary);';
+            if (i === this.plugin.settings.languagePresets.length - 1) {
+                row.style.borderBottom = 'none';
+            }
+            
+            // 语言名称
+            const nameCell = row.createDiv();
+            nameCell.style.cssText = 'padding: 10px 12px; font-size: 0.9em; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;';
+            nameCell.setText(preset.name);
+            // 如果不是内置语言，添加自定义标签
+            const isBuiltin = defaultNotes.hasOwnProperty(preset.code);
+            if (!isBuiltin) {
+                const tagSpan = nameCell.createSpan();
+                tagSpan.style.cssText = 'background: var(--background-modifier-hover); padding: 2px 6px; border-radius: 10px; font-size: 0.65em; color: var(--text-muted);';
+                tagSpan.setText('自定义');
+            }
+            
+            // 代码
+            const codeCell = row.createDiv();
+            codeCell.style.cssText = 'padding: 10px 12px; font-family: monospace; color: var(--text-accent); font-size: 0.85em; display: flex; align-items: center;';
+            codeCell.setText(preset.code);
+            
+            // 备注（可编辑）
+            const noteCell = row.createDiv();
+            noteCell.style.cssText = 'padding: 6px 12px; display: flex; align-items: center;';
+            const noteInput = noteCell.createEl('input', { type: 'text', value: preset.note });
+            noteInput.style.cssText = 'width: 100%; padding: 6px 8px; border-radius: 5px; border: 1px solid var(--background-modifier-border); background: var(--background-primary); font-size: 0.8em; box-sizing: border-box;';
+            noteInput.placeholder = t('optional');
+            noteInput.onchange = async (e) => {
+                this.plugin.settings.languagePresets[index].note = e.target.value;
+                await this.plugin.saveSettings();
+                new Notice(`✅ 已更新${t('note')}: ${preset.name}`);
+            };
+            
+            // 删除按钮
+            const actionCell = row.createDiv();
+            actionCell.style.cssText = 'padding: 8px 12px; text-align: center; display: flex; align-items: center; justify-content: center;';
+            const deleteBtn = actionCell.createEl('button', { text: t('delete') });
+            deleteBtn.style.cssText = 'padding: 4px 12px; border-radius: 5px; border: 1px solid var(--background-modifier-error); background: var(--background-secondary); color: var(--text-error); cursor: pointer; font-size: 0.75em; transition: all 0.2s;';
+            deleteBtn.onmouseenter = () => { deleteBtn.style.background = 'var(--background-modifier-error)'; deleteBtn.style.color = 'white'; };
+            deleteBtn.onmouseleave = () => { deleteBtn.style.background = 'var(--background-secondary)'; deleteBtn.style.color = 'var(--text-error)'; };
+            deleteBtn.onclick = async () => {
+                this.plugin.settings.languagePresets.splice(index, 1);
+                await this.plugin.saveSettings();
+                this.display();
+                new Notice(`✅ ${t('delete')}: ${preset.name}`);
+            };
         }
-        let newLangName = '', newLangCode = '';
-        new Setting(langContainer).setName(t('add')).setDesc(t('language_presets')).addText(text => text.setPlaceholder(t('add')).onChange(value => newLangName = value)).addText(text => text.setPlaceholder('code').onChange(value => newLangCode = value)).addButton(btn => btn.setButtonText(t('add')).onClick(async () => { if (newLangName && newLangCode) { this.plugin.settings.languagePresets.push({ name: newLangName, code: newLangCode }); await this.plugin.saveSettings(); this.display(); new Notice(`✅ ${t('add')}`); } else { new Notice(`⚠️ ${t('please_fill_word_def')}`); } }));
+        
+        // 添加新语言的区域
+        const addSection = containerEl.createDiv();
+        addSection.style.cssText = 'margin-top: 20px; padding: 16px; background: var(--background-primary-alt); border-radius: 8px; border: 1px solid var(--background-modifier-border);';
+        
+        addSection.createEl('div', { text: `✨ ${t('add_language')}`, style: 'font-weight: bold; margin-bottom: 12px; font-size: 0.9em;' });
+        
+        const addDesc = addSection.createDiv();
+		addDesc.style.cssText = 'color: var(--text-muted); font-size: 0.75em; margin-bottom: 12px;';
+		addDesc.setText(t('add_language_desc'));
+        
+        const addRow = addSection.createDiv();
+        addRow.style.cssText = 'display: flex; align-items: flex-end; gap: 12px; flex-wrap: wrap;';
+        
+        let newLangName = '', newLangCode = '', newLangNote = '';
+        
+        const nameWrapper = addRow.createDiv();
+        nameWrapper.style.cssText = 'flex: 2; min-width: 140px;';
+        const nameLabel = nameWrapper.createDiv();
+        nameLabel.style.cssText = 'font-size: 0.7em; color: var(--text-muted); margin-bottom: 4px;';
+        nameLabel.setText(`${t('language_name')} (e.g., 中文, English, 日本語)`);
+        const nameInput = nameWrapper.createEl('input', { type: 'text', placeholder: t('language_name') });
+        nameInput.style.cssText = 'width: 100%; padding: 8px 10px; border-radius: 6px; border: 1px solid var(--background-modifier-border); background: var(--background-primary); font-size: 0.9em; box-sizing: border-box;';
+        nameInput.oninput = (e) => { newLangName = e.target.value; };
+        
+        const codeWrapper = addRow.createDiv();
+        codeWrapper.style.cssText = 'flex: 1; min-width: 100px;';
+        const codeLabel = codeWrapper.createDiv();
+        codeLabel.style.cssText = 'font-size: 0.7em; color: var(--text-muted); margin-bottom: 4px;';
+        codeLabel.setText(`${t('language_code')} (e.g., zh, en, ja)`);
+        const codeInput = codeWrapper.createEl('input', { type: 'text', placeholder: t('language_code') });
+        codeInput.style.cssText = 'width: 100%; padding: 8px 10px; border-radius: 6px; border: 1px solid var(--background-modifier-border); background: var(--background-primary); font-size: 0.9em; box-sizing: border-box;';
+        codeInput.oninput = (e) => { newLangCode = e.target.value.toLowerCase(); };
+        
+        const noteWrapper = addRow.createDiv();
+        noteWrapper.style.cssText = 'flex: 1.5; min-width: 120px;';
+        const noteLabel = noteWrapper.createDiv();
+        noteLabel.style.cssText = 'font-size: 0.7em; color: var(--text-muted); margin-bottom: 4px;';
+        noteLabel.setText(`${t('note')} (${t('optional')})`);
+        const noteInput = noteWrapper.createEl('input', { type: 'text', placeholder: `e.g., Simplified Chinese, American English` });
+        noteInput.style.cssText = 'width: 100%; padding: 8px 10px; border-radius: 6px; border: 1px solid var(--background-modifier-border); background: var(--background-primary); font-size: 0.9em; box-sizing: border-box;';
+        noteInput.oninput = (e) => { newLangNote = e.target.value; };
+        
+        const addBtnWrapper = addRow.createDiv();
+        addBtnWrapper.style.cssText = 'display: flex; align-items: flex-end;';
+        const addBtn = addBtnWrapper.createEl('button', { text: t('add_language') });
+        addBtn.style.cssText = 'padding: 8px 20px; border-radius: 6px; background: var(--interactive-accent); color: white; border: none; cursor: pointer; font-size: 0.9em; transition: all 0.2s; height: 38px;';
+        addBtn.onmouseenter = () => { addBtn.style.opacity = '0.9'; };
+        addBtn.onmouseleave = () => { addBtn.style.opacity = '1'; };
+        addBtn.onclick = async () => {
+            if (newLangName && newLangCode) {
+                const exists = this.plugin.settings.languagePresets.some(p => p.code === newLangCode);
+                if (exists) {
+                    new Notice(`⚠️ 语言代码 "${newLangCode}" 已存在`);
+                    return;
+                }
+                this.plugin.settings.languagePresets.push({ 
+                    name: newLangName, 
+                    code: newLangCode,
+                    note: newLangNote || ''
+                });
+                await this.plugin.saveSettings();
+                this.display();
+                new Notice(`✅ ${t('add_language')}: ${newLangName} (${newLangCode})`);
+            } else {
+                new Notice(`⚠️ 请填写${t('language_name')}和${t('language_code')}`);
+            }
+        };
+        
+        containerEl.createEl('hr');
         
         containerEl.createEl('h3', { text: '📚 ' + t('vocab_management') });
         const wordCount = Object.keys(this.plugin.settings.vocabulary).length;
@@ -1650,7 +1909,7 @@ class CustomTranslateSettingTab extends PluginSettingTab {
             <p>💡 <strong>${t('tip_hotkey')}</strong></p>
             <p style="margin-top: 8px; font-size: 0.85em;">📌 ${t('tip_translate')}</p>
             <p style="margin-top: 4px; font-size: 0.85em;">📖 ${t('lookup')}</p>
-            <p style="margin-top: 4px; font-size: 0.85em;">➕ ${t('add')}</p>
+            <p style="margin-top: 4px; font-size: 0.85em;">➕ ${t('add_word')}</p>
         `;
     }
 }

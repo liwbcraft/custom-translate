@@ -36,6 +36,14 @@
     color: var(--text-muted) !important;
 }
 
+.status-bar-item.plugin-custom-translate span:first-child {
+    margin-right: 8px !important;  /* 符号右边距 */
+}
+
+.status-bar-item.plugin-custom-translate span:last-child {
+    margin-left: 0 !important;       /* 文字左边距 */
+}
+
 .theme-dark .status-bar-item.plugin-custom-translate {
     color: #a0a0a0 !important;
 }
