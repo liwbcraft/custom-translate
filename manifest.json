@@ -1,7 +1,7 @@
 {
   "id": "custom-translate",
   "name": "Custom Translate",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "minAppVersion": "0.15.0",
   "description": "Translate selected text via local API and manage your personal vocabulary.",
   "author": "Liwb",
