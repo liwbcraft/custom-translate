@@ -117,8 +117,6 @@ MIT
 
 ---
 
----
-
 ## English
 
 An Obsidian plugin for local translation and vocabulary management, designed to work with the open-source LibreTranslate.
@@ -229,6 +227,8 @@ Go to **Obsidian Settings → Hotkeys** and search for "Custom Translate" to set
 ### License
 
 MIT
+
+---
 
 ## Links | 链接
 
